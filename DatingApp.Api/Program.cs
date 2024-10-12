@@ -1,7 +1,20 @@
+using Data.Context;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+#region Confige database
+builder.Services.AddDbContext<ReactivityContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
+});
+
+#endregion
 
 var app = builder.Build();
 
@@ -25,3 +38,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
